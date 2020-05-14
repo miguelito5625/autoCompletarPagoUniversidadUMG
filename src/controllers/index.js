@@ -51,7 +51,7 @@ mainController.llenarFormularioPago = async (req, res) => {
     const { width, height } = firstPage.getSize()
 
     // Escribe texto en el documento en las coordenadas dadas
-    firstPage.drawText(Number(req.body.colegiatura).toFixed(2), {
+    firstPage.drawText(Number(totalAPagar).toFixed(2), {
         x: 128,
         y: height / 2 + 237,
         size: 10,
@@ -117,7 +117,7 @@ mainController.llenarFormularioPago = async (req, res) => {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Escribe texto en el documento en las coordenadas dadas
-    firstPage.drawText(Number(req.body.colegiatura).toFixed(2), {
+    firstPage.drawText(Number(totalAPagar).toFixed(2), {
         x: 128,
         y: height / 2 + -23,
         size: 10,
@@ -177,7 +177,7 @@ mainController.llenarFormularioPago = async (req, res) => {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Escribe texto en el documento en las coordenadas dadas
-    firstPage.drawText(Number(req.body.colegiatura).toFixed(2), {
+    firstPage.drawText(Number(totalAPagar).toFixed(2), {
         x: 128,
         y: height / 2 + -282,
         size: 10,
