@@ -11,17 +11,28 @@ mainController.saludo = (req, res) => {
 mainController.llenarFormularioPago = async (req, res) => {
     console.log(req.body);
     var fechas = req.body.fecha.split('-');
-    console.log(fechas[0]);
-    console.log(fechas[1]);
-    console.log(fechas[2]);
-    
-    // console.log(req.file.filename);
+    // console.log(fechas[0]);
+    // console.log(fechas[1]);
+    // console.log(fechas[2]);
 
-    if (req.body.mora == 'true') {
-        console.log('tiene mora');
-    } else {
-        console.log('no tiene mora');
-        const filePath = req.file.path;
+    var montoMora = req.body.montoMora;
+
+    if (isNaN(montoMora)) {
+        montoMora = 0;
+    }
+
+    const totalAPagar = Number(req.body.colegiatura) + Number(montoMora);
+    console.log('total: ' + totalAPagar);
+    // res.json('ok');
+    // return;
+    
+    // if (req.body.mora == 'true') {
+    //     console.log('tiene mora');
+    // } else {
+    //     console.log('no tiene mora');
+    // }
+
+    const filePath = req.file.path;
         //Obtiene el documento pdf guardado en el sistema
         const existingPdfBytes = await fs.readFileSync(filePath);
 
@@ -47,6 +58,16 @@ mainController.llenarFormularioPago = async (req, res) => {
             // color: rgb(0.95, 0.1, 0.1),
         });
 
+        if (montoMora > 0 && req.body.mora == 'true') {
+            firstPage.drawText(Number(montoMora).toFixed(2), {
+                x: 139,
+                y: height / 2 + 248,
+                size: 10,
+                font: helveticaFont,
+                // color: rgb(0.95, 0.1, 0.1),
+            });
+        }
+
         firstPage.drawText(req.body.municipio, {
             x: 242,
             y: height / 2 + 290,
@@ -63,7 +84,7 @@ mainController.llenarFormularioPago = async (req, res) => {
             // color: rgb(0.95, 0.1, 0.1),
         });
 
-        firstPage.drawText(req.body.colegiatura +'     00', {
+        firstPage.drawText(req.body.pagoEfectivo +'     00', {
             x: 403,
             y: height / 2 + 250,
             size: 10,
@@ -71,7 +92,15 @@ mainController.llenarFormularioPago = async (req, res) => {
             // color: rgb(0.95, 0.1, 0.1),
         });
 
-        firstPage.drawText(req.body.colegiatura +'     00', {
+        firstPage.drawText(req.body.pagoCheque +'     00', {
+            x: 408,
+            y: height / 2 + 232,
+            size: 10,
+            font: helveticaFont,
+            // color: rgb(0.95, 0.1, 0.1),
+        });
+
+        firstPage.drawText(totalAPagar +'     00', {
             x: 403,
             y: height / 2 + 218,
             size: 10,
@@ -106,7 +135,7 @@ mainController.llenarFormularioPago = async (req, res) => {
             // color: rgb(0.95, 0.1, 0.1),
         });
 
-        firstPage.drawText(req.body.colegiatura +'     00', {
+        firstPage.drawText(req.body.colegiatura +'     f00', {
             x: 403,
             y: height / 2 + -10,
             size: 10,
@@ -177,7 +206,7 @@ mainController.llenarFormularioPago = async (req, res) => {
 
             }
         });
-    }
+
 
     res.json({
         response: 'ok',
