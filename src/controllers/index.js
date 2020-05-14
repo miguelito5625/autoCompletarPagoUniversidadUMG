@@ -10,8 +10,8 @@ mainController.saludo = (req, res) => {
 
 mainController.llenarFormularioPago = async (req, res) => {
     console.log(req.body);
-    // var fechas = req.body.fecha.split('-');
-    var fechas = req.body.fecha;
+    var fechas = req.body.fecha.split('-');
+    // var fechas = req.body.fecha;
     // console.log(fechas[0]);
     // console.log(fechas[1]);
     // console.log(fechas[2]);
